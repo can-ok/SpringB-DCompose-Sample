@@ -1,12 +1,28 @@
 services:
+  app:
+    container_name: springboot-dcompse
+    image: spring-boot-postgres
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+    - postgres
+
+    #jdbc:postgresql://localhost:5432/postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=canok
+      - SPRING_DATASOURCE_PASSWORD=pass-123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
   postgres:
     container_name: postgres
     image: postgres
     environment:
       POSTGRES_USER: canok
       POSTGRES_PASSWORD: pass-123
+      POSTGRES_DB: book
+
       PGDATA: /data/postgres
     ports:
       - "5432:5432"
-    restart: unless-stopped
 
